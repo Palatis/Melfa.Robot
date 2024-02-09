@@ -12,7 +12,7 @@ namespace Melfa.Robot
             new MelfaRobotException(int.Parse(RegexHelper.ErrorRegex().Match(ret).Groups[nameof(ErrorNumber)].Value), null);
 
         public static MelfaRobotException FromErrorResult(string cmd, string ret, Exception inner = null) =>
-            new MelfaRobotException(int.Parse(ret.Substring(3, 7)), cmd, inner);
+            new MelfaRobotException(int.Parse(ret.Substring(3, 4)), cmd, inner);
 
         public static MelfaRobotException FromErrorNumber(int err) =>
             new MelfaRobotException(err, null);
@@ -26,7 +26,7 @@ namespace Melfa.Robot
 
         public override string Message => $"{ErrorNumber:0000} ({ErrorLevel}) - {ErrorMessage}";
 
-        public MelfaRobotException(int err, string cmd, Exception inner = null) :
+        private MelfaRobotException(int err, string cmd, Exception inner = null) :
             base(null, inner)
         {
             ErrorNumber = err;
