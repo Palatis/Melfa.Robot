@@ -341,4 +341,22 @@ RCPU_main、CCPU_main、RCPU_sub、CCPU_sub、CPU_main、CPU_sub、FPGA、RCPU_P
   <data name="Error.Unknown.Message" xml:space="preserve">
     <value>未知的錯誤，請查詢控制器的問題排除手冊（BFP-A3480）取得更多資訊。</value>
   </data>
+  <data name="Error.4140.Message" xml:space="preserve">
+    <value>程式不存在</value>
+  </data>
+  <data name="Error.4140.Measure" xml:space="preserve">
+    <value>要求另一個程式，或是建立被要求的程式。</value>
+  </data>
+  <data name="Error.4140.Cause" xml:space="preserve">
+    <value>要求的程式不存在</value>
+  </data>
+  <data name="Error.5120.Message" xml:space="preserve">
+    <value>無法選擇程式（插槽不在程式選擇模式）</value>
+  </data>
+  <data name="Error.5120.Cause" xml:space="preserve">
+    <value>要求的插槽不在程式選擇模式</value>
+  </data>
+  <data name="Error.5120.Measure" xml:space="preserve">
+    <value>重置程式</value>
+  </data>
 </root>

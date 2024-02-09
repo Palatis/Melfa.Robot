@@ -682,6 +682,78 @@ namespace Melfa.Robot.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 The designated program was not found 的當地語系化字串。
+        /// </summary>
+        internal static string Error_4140_Cause {
+            get {
+                return ResourceManager.GetString("Error.4140.Cause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 Low 的當地語系化字串。
+        /// </summary>
+        internal static string Error_4140_Level {
+            get {
+                return ResourceManager.GetString("Error.4140.Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 Designate a different program, or create the designated program. 的當地語系化字串。
+        /// </summary>
+        internal static string Error_4140_Measure {
+            get {
+                return ResourceManager.GetString("Error.4140.Measure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 The program was not found 的當地語系化字串。
+        /// </summary>
+        internal static string Error_4140_Message {
+            get {
+                return ResourceManager.GetString("Error.4140.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 The specified slot is not in the program selection state 的當地語系化字串。
+        /// </summary>
+        internal static string Error_5120_Cause {
+            get {
+                return ResourceManager.GetString("Error.5120.Cause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 Low 的當地語系化字串。
+        /// </summary>
+        internal static string Error_5120_Level {
+            get {
+                return ResourceManager.GetString("Error.5120.Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 Reset the program 的當地語系化字串。
+        /// </summary>
+        internal static string Error_5120_Measure {
+            get {
+                return ResourceManager.GetString("Error.5120.Measure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 Cannot select program (slot not in program selection state) 的當地語系化字串。
+        /// </summary>
+        internal static string Error_5120_Message {
+            get {
+                return ResourceManager.GetString("Error.5120.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 Cannot execute during an error 的當地語系化字串。
         /// </summary>
         internal static string Error_5600_Cause {

@@ -438,4 +438,30 @@ Turn on the power supply again after checking.</value>
   <data name="Error.Unknown.Message" xml:space="preserve">
     <value>Unknown error, check controller troubleshooting manual (BFP-A3480) for more information.</value>
   </data>
+  <data name="Error.4140.Message" xml:space="preserve">
+    <value>The program was not found</value>
+  </data>
+  <data name="Error.4140.Measure" xml:space="preserve">
+    <value>Designate a different program, or create the designated program.</value>
+  </data>
+  <data name="Error.4140.Cause" xml:space="preserve">
+    <value>The designated program was not found</value>
+  </data>
+  <data name="Error.4140.Level" xml:space="preserve">
+    <value>Low</value>
+    <comment>@Invariant</comment>
+  </data>
+  <data name="Error.5120.Message" xml:space="preserve">
+    <value>Cannot select program (slot not in program selection state)</value>
+  </data>
+  <data name="Error.5120.Cause" xml:space="preserve">
+    <value>The specified slot is not in the program selection state</value>
+  </data>
+  <data name="Error.5120.Measure" xml:space="preserve">
+    <value>Reset the program</value>
+  </data>
+  <data name="Error.5120.Level" xml:space="preserve">
+    <value>Low</value>
+    <comment>@Invariant</comment>
+  </data>
 </root>
