@@ -58,13 +58,13 @@ namespace Melfa.Robot
                 StructuralFlag1 = int.Parse(match.Groups["FLG1"].Value);
                 StructuralFlag2 = int.Parse(match.Groups["FLG2"].Value);
                 JogSpeed = new byte[] {
-                    byte.Parse(match.Groups["JSPD1"].Value),
-                    byte.Parse(match.Groups["JSPD2"].Value),
-                    byte.Parse(match.Groups["JSPD3"].Value),
-                    byte.Parse(match.Groups["JSPD4"].Value),
-                    byte.Parse(match.Groups["JSPD5"].Value),
-                    byte.Parse(match.Groups["JSPD6"].Value),
-                    byte.Parse(match.Groups["JSPD7"].Value),
+                    byte.Parse(match.Groups["JSPD1"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD2"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD3"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD4"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD5"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD6"].Value, NumberStyles.HexNumber),
+                    byte.Parse(match.Groups["JSPD7"].Value, NumberStyles.HexNumber),
                 }.ToImmutableArray();
                 ProgramExtension = match.Groups["PROG_EXT"].Value;
                 ParameterExtension = match.Groups["PRM_EXT"].Value;
