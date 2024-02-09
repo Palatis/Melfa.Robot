@@ -95,7 +95,7 @@ namespace Melfa.Robot
         public bool OperationEnabled
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => DoCommandInternal(value ? "CTRLON" : "CTRLOFF");
+            set => DoCommandInternal(value ? "CNTLON" : "CNTLOFF");
         }
         #endregion
 
