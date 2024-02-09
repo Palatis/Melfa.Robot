@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net481;net5.0;net6.0;net8.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>MELFA R-protocol robot library</Title>
+		<VersionPrefix>0.1.22.1</VersionPrefix>
+		<Copyright>Copyright (C) 2024 Victor Tseng</Copyright>
+		<Description>MELFA R-protocol robot library (BFP-4288-V)</Description>
+		<RepositoryUrl>https://github.com/Palatis/Melfa.Robot.git</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Palatis/Melfa.Robot.git</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+		<PackageTags>melfa;robot;mitsubishi</PackageTags>
+		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$(TargetFramework) == 'net481'">
+		<PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
+		<PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>
