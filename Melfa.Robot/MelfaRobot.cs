@@ -660,8 +660,11 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public (ushort Input, ushort Output) ReadInputOutput(int input, int output)
         {
-            var io = uint.Parse(DoCommandInternal($"IOSIGNAL{input};{output}"), NumberStyles.HexNumber);
-            return ((ushort)(io >> 16), (ushort)(io & 0xffff));
+            var io = DoCommandInternal($"IOSIGNAL{input};{output}");
+            return (
+                ushort.Parse(io.Substring(0, 4), NumberStyles.HexNumber),
+                ushort.Parse(io.Substring(4, 4), NumberStyles.HexNumber)
+            );
         }
 
         /// <summary>[IN] Read GPIO input</summary>
