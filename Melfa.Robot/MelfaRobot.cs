@@ -1090,7 +1090,8 @@ namespace Melfa.Robot
         /// </param>
         /// <param name="target">Reset target</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void MaintenanceForecastReset(byte axis, MaintenanceResetTarget target) => DoCommandInternal($"MFRST={axis:x2};{target:x2}");
+        public void MaintenanceForecastReset(byte axis, MaintenanceResetTarget target) =>
+            DoCommandInternal($"MFRST={axis:x2};{(byte)target:x2}");
 
         /// <summary>[MFFCST=] Maintenance forecast read</summary>
         /// <param name="type">forecast type</param>
