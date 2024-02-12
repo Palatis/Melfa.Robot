@@ -663,7 +663,6 @@ namespace Melfa.Robot
             var io = uint.Parse(DoCommandInternal($"IOSIGNAL{input};{output}"), NumberStyles.HexNumber);
             return ((ushort)(io >> 16), (ushort)(io & 0xffff));
         }
-        // TODO: IOSIGNAL - Input and output signal read
 
         /// <summary>[IN] Read GPIO input</summary>
         /// <param name="index">Index of the input signal</param>
