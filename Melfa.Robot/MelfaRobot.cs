@@ -588,6 +588,7 @@ namespace Melfa.Robot
         /// <param name="speed">Movement speed (0 ~ 100)</param>
         /// <param name="force">Holding force (0 ~ 100)</param>
         /// <param name="point">Point number (0 ~ 32)</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Jog(ElectricHandJogMode mode, byte speed, byte force, byte point) =>
             DoCommandInternal($"JOG{(int)mode:x2};00;{speed:x2};{force:x2};{point:x2}");
 
