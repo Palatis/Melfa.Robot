@@ -562,7 +562,14 @@ namespace Melfa.Robot
         public void Jog(JogMode mode, byte negative, byte positive, InchingMode inching = InchingMode.Off) =>
             DoCommandInternal($"JOG{(byte)mode:x2};00;({negative:x2});({positive:x2});({(byte)inching:x2})");
 
-        // TODO: JOG - JOG operation for Multifunctional Electric Hand
+        /// <summary>[JOG] JOG operation for Multifunctional Electric Hand</summary>
+        /// /// <remarks>If the command is not received between about 140msec, the jog operation is automatically stopped.</remarks>
+        /// <param name="mode">Electric hand jog mode</param>
+        /// <param name="speed">Movement speed (0 ~ 100)</param>
+        /// <param name="force">Holding force (0 ~ 100)</param>
+        /// <param name="point">Point number (0 ~ 32)</param>
+        public void Jog(ElectricHandJogMode mode, byte speed, byte force, byte point) =>
+            DoCommandInternal($"JOG{(int)mode:x2};00;{speed:x2};{force:x2};{point:x2}");
 
         /// <summary>[LS&lt;ON/OFF&gt;] Limit switch ON or OFF</summary>
         public bool LimitSwitch
