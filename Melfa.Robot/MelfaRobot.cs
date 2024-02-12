@@ -307,7 +307,27 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void FileRename(string source, string destination) => DoCommandInternal($"FRENAME{source};{destination}");
 
-        // TODO: FATTRIB - File attribute
+        /// <summary>[FATTRIB] File set / clear attribute</summary>
+        /// <param name="filename">Target file name</param>
+        /// <param name="readOnlyLines">
+        ///     <c>true</c>: Read only lines (+p)<br />
+        ///     <c>false</c>: Read and write lines (-p)<br />
+        ///     <c>null</c>: Don't modify
+        /// </param>
+        /// <param name="readOnlyVariable">
+        ///     <c>true</c>: Read only variable (+q)<br />
+        ///     <c>false</c>: Read and write variable (-q)<br />
+        ///     <c>null</c>: Don't modify
+        /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FileAttribute(string filename, bool? readOnlyLines, bool? readOnlyVariable)
+        {
+            if (readOnlyLines is bool lines)
+                DoCommandInternal(lines ? $"FATTRIB{filename};+p" : $"FATTRIB{filename};-p");
+            if (readOnlyVariable is bool variable)
+                DoCommandInternal(variable ? $"FATTRIB{filename};+q" : $"FATTRIB{filename};-q");
+        }
+
         // TODO: FINIT - File init
         // TODO: FOPEN - File block open
         // TODO: FCLOSE - File block close
@@ -631,6 +651,17 @@ namespace Melfa.Robot
 
         // TODO: DSTATE - Read stop status
         // TODO: CALIB - Install status
+
+        /// <summary>[IOSIGNAL] Input and output signal read</summary>
+        /// <param name="input">Input signal number</param>
+        /// <param name="output">Output signal number</param>
+        /// <returns>(Input signal state, Output signal state)</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public (ushort Input, ushort Output) ReadInputOutput(int input, int output)
+        {
+            var io = uint.Parse(DoCommandInternal($"IOSIGNAL{input};{output}"), NumberStyles.HexNumber);
+            return ((ushort)(io >> 16), (ushort)(io & 0xffff));
+        }
         // TODO: IOSIGNAL - Input and output signal read
 
         /// <summary>[IN] Read GPIO input</summary>
