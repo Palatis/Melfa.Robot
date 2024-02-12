@@ -1025,9 +1025,44 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetOrigin(OriginType type, byte axis) => DoCommandInternal($"HOME{(int)type};{axis:x2}");
 
-        // TODO: AXDATINST - Additional axis add for DATINST and DATRD
-        // TODO: DATINST - Data input origin set
-        // TODO: DATRD - Data input origin read
+        /// <summary>[AXDATINST] Additional axis add for DATINST and DATRD</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void InstallAdditionalAxisData() => DoCommandInternal("AXDATINST");
+
+        /// <summary>[DATINST] Data input origin set</summary>
+        /// <param name="j1">J1 data</param>
+        /// <param name="j2">J2 data</param>
+        /// <param name="j3">J3 data</param>
+        /// <param name="j4">J4 data</param>
+        /// <param name="j5">J5 data</param>
+        /// <param name="j6">J6 data</param>
+        /// <param name="checksum">Checksum</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void InstallAxisOriginData(string j1, string j2, string j3, string j4, string j5, string j6, string checksum) =>
+            DoCommandInternal($"DATINST{j1};{j2};{j3};{j4};{j5};{j6};{checksum}");
+
+        /// <summary>[DATINST] Data input origin set</summary>
+        /// <param name="j1">J1 data</param>
+        /// <param name="j2">J2 data</param>
+        /// <param name="j3">J3 data</param>
+        /// <param name="j4">J4 data</param>
+        /// <param name="j5">J5 data</param>
+        /// <param name="j6">J6 data</param>
+        /// <param name="j7">J7 data</param>
+        /// <param name="j8">J8 data</param>
+        /// <param name="checksum">Checksum</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void InstallAxisOriginData(string j1, string j2, string j3, string j4, string j5, string j6, string j7, string j8, string checksum) =>
+            DoCommandInternal($"DATINST{j1};{j2};{j3};{j4};{j5};{j6};{j7};{j8};{checksum}");
+
+        /// <summary>[DATRD] Data input origin read</summary>
+        /// <returns>(Axis origin data, Checksum)</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public (IEnumerable<string> OriginData, string Checksum) ReadAxisOriginData()
+        {
+            var results = DoCommandInternal("DATRD").Split(';');
+            return (results.Take(results.Length - 1), results.Last());
+        }
 
         /// <summary>[RSTPWR] Reset power</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
