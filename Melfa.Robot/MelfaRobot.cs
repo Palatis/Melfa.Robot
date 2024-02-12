@@ -1,5 +1,6 @@
 using CommunityToolkit.Diagnostics;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
@@ -521,9 +522,23 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void WriteOutput(int index, ushort value) => DoCommandInternal($"OUT={index};{value:x4}");
 
-        // TODO: DIN - CC-Link's input register data read
-        // TODO: DOUT - CC-Link's output register data read
-        // TODO: DOUT= - CC-Link's output register data write
+        /// <summary>[DIN] CC-Link's input register data read</summary>
+        /// <param name="index">Input register number</param>
+        /// <returns>The input registered returned by the DEC (16 pieces)</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IEnumerable<ushort> ReadCCLinkInput(int index) => DoCommandInternal($"DIN{index}").Split(';').Select(ushort.Parse).ToImmutableArray();
+
+        /// <summary>[DOUT] CC-Link's output register data read</summary>
+        /// <param name="index">Output register number</param>
+        /// <returns>The output registered returned by the DEC (16 pieces)</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IEnumerable<ushort> ReadCCLinkOutput(int index) => DoCommandInternal($"DOUT{index}").Split(';').Select(ushort.Parse).ToImmutableArray();
+
+        /// <summary>[DOUT=] CC-Link's output register data write</summary>
+        /// <param name="index">Output register number</param>
+        /// <param name="value">Output register value</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void WriteCCLinkOutput(int index, ushort value) => DoCommandInternal($"DOUT={index};{value:x4}");
 
         /// <summary>[IN&lt;DMY/SET&gt;] Enable / Disable pseudo input</summary>
         public bool DummyInput
@@ -538,7 +553,12 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void WriteInput(int index, ushort value) => DoCommandInternal($"IN={index};{value:x4}");
 
-        // TODO: DIN= - Write CC-Link pseudo input register
+        /// <summary>[DIN=] Write CC-Link pseudo input data</summary>
+        /// <param name="index">Index of the input signal</param>
+        /// <param name="value">Target pseudo input signal states</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void WriteCCLinkInput(int index, ushort value) => DoCommandInternal($"DIN={index};{value:x4}");
+
         // TODO: STPSIG - Stop signal read
 
         /// <summary>[HNDSTS] Hand output signal read</summary>
