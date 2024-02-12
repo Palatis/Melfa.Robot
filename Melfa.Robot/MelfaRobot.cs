@@ -560,7 +560,7 @@ namespace Melfa.Robot
         /// <param name="inching">Inching mode</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Jog(JogMode mode, byte negative, byte positive, InchingMode inching = InchingMode.Off) =>
-            DoCommandInternal($"JOG{(byte)mode};00;({negative:x2});({positive:x2});({(byte)inching})");
+            DoCommandInternal($"JOG{(byte)mode:x2};00;({negative:x2});({positive:x2});({(byte)inching:x2})");
 
         // TODO: JOG - JOG operation for Multifunctional Electric Hand
 
