@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net481;net5.0;net6.0;net8.0</TargetFrameworks>
@@ -17,7 +17,6 @@
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<PackageTags>melfa;robot;mitsubishi</PackageTags>
-		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
