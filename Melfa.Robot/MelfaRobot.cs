@@ -246,7 +246,15 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ProgramDelete(int start, int end) => DoCommandInternal($"DELETE{start};{end}");
 
-        // TODO: RENUM - Renumber
+        /// <summary>[RENUM] Program renumber</summary>
+        /// <remarks>Renumber for program, effective in the edit slot.</remarks>
+        /// <param name="newLine">New line number (0:10)</param>
+        /// <param name="oldLineStart">Old start line number (0:Top)</param>
+        /// <param name="step">Step of line number (0:10)</param>
+        /// <param name="oldLineEnd">Old end line number (0:Bottom)</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ProgramRenumber(int newLine, int oldLineStart, int step, int oldLineEnd) =>
+            DoCommandInternal($"RENUM{newLine};{oldLineStart};{step};{oldLineEnd}");
         #endregion
 
         #region File Operation
