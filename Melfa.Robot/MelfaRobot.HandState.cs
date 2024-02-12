@@ -14,7 +14,7 @@ namespace Melfa.Robot
             /// <summary>Hand type</summary>
             public HandType HandType { get; }
 
-            public HandState(Match match)
+            internal HandState(Match match)
             {
                 SignalNumber = int.Parse(match.Groups[nameof(SignalNumber)].Value);
                 switch (int.Parse(match.Groups[nameof(State)].Value))

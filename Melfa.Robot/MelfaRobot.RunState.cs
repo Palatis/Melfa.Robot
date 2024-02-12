@@ -34,7 +34,7 @@ namespace Melfa.Robot
             /// <summary>Mech number under use</summary>
             public int MechNumber { get; }
 
-            public RunState(string ret, int slot)
+            internal RunState(string ret, int slot)
             {
                 TaskSlot = slot;
                 var match = RegexHelper.RunStateRegex().Match(ret);
