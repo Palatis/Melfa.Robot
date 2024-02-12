@@ -774,7 +774,19 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void FactoryReset(string name, int mech = 0) => DoCommandInternal($"PRMUNDO{mech};{name}");
 
-        // TODO: PMR= - list of chaned parameters
+        /// <summary>[PMR=] Read change parameter list</summary>
+        /// <returns>List of changed parameters</returns>
+        public IEnumerable<string> ListChangedParameters()
+        {
+            var results = DoCommandInternal("PMR=0").Split(';');
+            do
+            {
+                var parameters = results[2].Split('\x0b');
+                foreach (var parameter in parameters)
+                    yield return parameter;
+                results = DoCommandInternal("PMR=1").Split(';');
+            } while (int.Parse(results[0]) != 0);
+        }
 
         /// <summary>[KEYWD] Keyword</summary>
         /// <remarks>The level of opening to the public of the parameter is changed.</remarks>
