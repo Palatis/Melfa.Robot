@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
 namespace Melfa.Robot
@@ -30,16 +30,16 @@ namespace Melfa.Robot
             throw new InvalidEnumArgumentException(nameof(method), (int)method, typeof(StepMethod));
         }
 
-        public static string ToCommandString(this PositionType type)
+        public static string ToCommandString(this LocationType type)
         {
             switch (type)
             {
-                case PositionType.Top: return "TOP";
-                case PositionType.Bottom: return "END";
-                case PositionType.Next: return "+1";
-                case PositionType.Previous: return "-1";
+                case LocationType.Top: return "TOP";
+                case LocationType.Bottom: return "END";
+                case LocationType.Next: return "+1";
+                case LocationType.Previous: return "-1";
             }
-            throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(PositionType));
+            throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(LocationType));
         }
     }
 }

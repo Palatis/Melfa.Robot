@@ -1,6 +1,6 @@
 ﻿namespace Melfa.Robot
 {
-    public enum PositionType : byte
+    public enum LocationType : byte
     {
         /// <summary>[TOP] Top line / position</summary>
         Top = 1,

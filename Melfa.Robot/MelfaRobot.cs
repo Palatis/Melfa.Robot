@@ -153,7 +153,7 @@ namespace Melfa.Robot
         /// <param name="type">The line to read</param>
         /// <returns>Content of the line</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ProgramGetLine(PositionType type) => DoCommandInternal($"LISTI{type.ToCommandString()}");
+        public string ProgramGetLine(LocationType type) => DoCommandInternal($"LISTI{type.ToCommandString()}");
         /// <summary>[LISTI] Program list read</summary>
         /// <remarks>The line data is read from the program. It is effective in the edit slot.</remarks>
         /// <param name="line">specific line number</param>
@@ -170,7 +170,7 @@ namespace Melfa.Robot
         ///     unable to parse the position to <see cref="PositionP"/> nor <see cref="PositionJ"/>
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public IPosition ProgramGetPosition(PositionType type) => ProgramGetPosition(type.ToCommandString());
+        public IPosition ProgramGetPosition(LocationType type) => ProgramGetPosition(type.ToCommandString());
 
         /// <summary>[LISTP] Program position read</summary>
         /// <param name="positionName">Specific position name</param>
