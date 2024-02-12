@@ -956,8 +956,22 @@ namespace Melfa.Robot
             set => DoCommandInternal($"KEYWDp{value}");
         }
 
-        // TODO: SLOTRD - Slot table read
-        // TODO: SLOTSET - Slot table write
+        /// <summary>[SLOTRD] Slot table read</summary>
+        /// <param name="slot">slot index</param>
+        /// <returns>Slot info</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public TaskSlotInfo SlotGet(int slot) => new TaskSlotInfo(DoCommandInternal("SLOTRD", slot), slot);
+
+        /// <summary>[SLOTSET] Slot table write</summary>
+        /// <remarks>The slot table is changed ("SLTn" parameter is changed), reboot required.</remarks>
+        /// <param name="slot">slot index</param>
+        /// <param name="program">Program name of slot table</param>
+        /// <param name="mode">Operation mode of slot table</param>
+        /// <param name="condition">Starting condition of slot table</param>
+        /// <param name="priority">Priority of slot table (1 ~ 31)</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SlotSet(int slot, string program, TaskMode mode, TaskCondition condition, int priority) =>
+            DoCommandInternal($"SLOTSET{program};{mode.ToCommandString()};{condition.ToCommandString()};{priority}", slot);
 
         /// <summary>[ENCBATTM] Battery remain time</summary>
         public (int PowerOnHour, int RemainingHour) BatteryRemainingTime
