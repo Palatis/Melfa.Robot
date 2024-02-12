@@ -3,11 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+#if !NET5_0_OR_GREATER
+using Numeral;
+#endif
 
 namespace Melfa.Robot
 {
@@ -260,18 +264,128 @@ namespace Melfa.Robot
         #region File Operation
         // TODO: PDIR - Program directory
         // TODO: FDIR - File directory
-        // TODO: FCHECK - File check
-        // TODO: FPATH - File path
-        // TODO: FCOPY - File copy
-        // TODO: FDEL - File delete
-        // TODO: FRENAME - File rename
+
+        /// <summary>[FCHECK] File check</summary>
+        /// <param name="filename">File name to check (if extension is ommitted, default to "MB5")</param>
+        /// <returns>
+        ///     <c>true</c>: File exists<br />
+        ///     <c>false</c>: File does not exists<br />
+        ///     <c>null</c>: Unknown
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool? FileExists(string filename)
+        {
+            var result = DoCommandInternal($"FCHECK{filename}");
+            switch (result)
+            {
+                case "N": return true;
+                case "F": return false;
+                default: return null;
+            }
+        }
+
+        /// <summary>[FPATH=] Get the save path name of the file</summary>
+        /// <param name="filename">Target filename (if extension is omitted, default to "MB5")</param>
+        /// <returns>File name in the path name with</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string FileFullPath(string filename) => DoCommandInternal($"FPATH{filename}");
+
+        /// <summary>[FCOPY] File copy</summary>
+        /// <param name="source">Source file name</param>
+        /// <param name="destination">Destination file name</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FileCopy(string source, string destination) => DoCommandInternal($"FCOPY{source};{destination}");
+
+        /// <summary>[FDEL] File delete</summary>
+        /// <param name="filename">Target file name</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FileDelete(string filename) => DoCommandInternal($"FDEL{filename}");
+
+        /// <summary>[FRENAME] File rename</summary>
+        /// <param name="source">Source file name</param>
+        /// <param name="destination">Destination file name</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FileRename(string source, string destination) => DoCommandInternal($"FRENAME{source};{destination}");
+
         // TODO: FATTRIB - File attribute
         // TODO: FINIT - File init
         // TODO: FOPEN - File block open
         // TODO: FCLOSE - File block close
-        // TODO: FREAD - Block read
-        // TODO: FWRITE - Block write
-        // TODO: EFREE - Read file size
+
+        /// <summary>[FREAD] File read</summary>
+        /// <remarks>
+        ///     <para>This is a combination of <c>FOPEN</c>, <c>FREAD</c>, and <c>FCLOSE</c>.</para>
+        ///     <para>
+        ///         It reads the full content to a <see cref="MemoryStream"/> all at once (instead
+        ///         of on-demand), becuase we can't <c>FOPEN</c> multiple files on the controller.
+        ///      </para>
+        ///      <para>Thus, be prepared for the long-delay while reading large files.</para>
+        /// </remarks>
+        /// <param name="filename">The name of the file to open</param>
+        /// <returns>
+        ///     The resulting <see cref="MemoryStream"/>. Client code should
+        ///     <see cref="IDisposable.Dispose()"/> it after use.
+        /// </returns>
+        public Stream FileRead(string filename)
+        {
+            DoCommandInternal($"FOPEN{filename};r");
+            var stream = new MemoryStream();
+            try
+            {
+                var results = DoCommandInternal("FREAD").Split(';');
+                do
+                {
+#if NET5_0_OR_GREATER
+                    var bytes = Convert.FromHexString(results[0]);
+#else
+                    var bytes = HexConverter.GetBytes(results[0].AsSpan());
+#endif
+                    stream.Write(bytes, 0, bytes.Length);
+                } while (int.Parse(results[1]) != 0);
+            }
+            catch { stream.Dispose(); }
+            finally { DoCommandInternal("FCLOSE"); }
+            stream.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
+        }
+
+        /// <summary>[FWRITE] File write</summary>
+        /// <remarks>
+        ///     <para>This is a combination of <c>FOPEN</c>, <c>FWRITE</c>, and <c>FCLOSE</c>.</para>
+        ///     <para>
+        ///         It writes the content of the <see cref="Stream"/> all at once (instead
+        ///         of on-demand), becuase we can't <c>FOPEN</c> multiple files on the controller.
+        ///     </para>
+        /// </remarks>
+        /// <param name="filename">Target filename</param>
+        /// <param name="stream">Content to be written to the controller</param>
+        public void FileWrite(string filename, Stream stream)
+        {
+            DoCommandInternal($"FOPEN{filename};w");
+            var bytes = new byte[110];
+            try
+            {
+                var n = stream.Read(bytes, 0, bytes.Length);
+#if NET5_0_OR_GREATER
+                var hex = Convert.ToHexString(bytes, 0, n);
+#else
+                var hex = HexConverter.GetString(bytes.AsSpan().Slice(0, n));
+#endif
+                DoCommandInternal($"FWRITE{n}:{hex}");
+            }
+            finally { DoCommandInternal("FCLOSE"); }
+        }
+
+        /// <summary>[EFREE] Read file size</summary>
+        /// <returns>(Total sizes of file system, Used size)</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public (int Total, int Used) FilesystemFree()
+        {
+            var ret = DoCommandInternal("EFREE").Split(';').Select(int.Parse).ToImmutableArray();
+            return (ret[0], ret[1]);
+        }
+
         // TODO: ESEARCH - String search
         #endregion
 
