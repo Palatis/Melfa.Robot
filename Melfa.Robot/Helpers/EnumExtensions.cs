@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing.Drawing2D;
 
 namespace Melfa.Robot
 {
@@ -27,6 +28,18 @@ namespace Melfa.Robot
                 case StepMethod.Stop: return "S";
             }
             throw new InvalidEnumArgumentException(nameof(method), (int)method, typeof(StepMethod));
+        }
+
+        public static string ToCommandString(this PositionType type)
+        {
+            switch (type)
+            {
+                case PositionType.Top: return "TOP";
+                case PositionType.Bottom: return "END";
+                case PositionType.Next: return "+1";
+                case PositionType.Previous: return "-1";
+            }
+            throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(PositionType));
         }
     }
 }

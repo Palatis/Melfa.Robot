@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using System;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -148,11 +148,69 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ProgramSetVariable(string name, string value) => DoCommandInternal($"VAL={name}={value}");
 
-        // TODO: LISTI - Program list read
+        /// <summary>[LISTI] Program list read</summary>
+        /// <remarks>The line data is read from the program. It is effective in the edit slot.</remarks>
+        /// <param name="type">The line to read</param>
+        /// <returns>Content of the line</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ProgramGetLine(PositionType type) => DoCommandInternal($"LISTI{type.ToCommandString()}");
+        /// <summary>[LISTI] Program list read</summary>
+        /// <remarks>The line data is read from the program. It is effective in the edit slot.</remarks>
+        /// <param name="line">specific line number</param>
+        /// <returns>Conent of the line</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ProgramGetLine(int line) => DoCommandInternal($"LISTI{line}");
+
         // TODO: LISTL - Program more list read
-        // TODO: LISTP - Program position read
-        // TODO: VTYPRD - Variable type read
-        // TODO: LISTCNT - Count program lines
+
+        /// <summary>[LISTP] Program position read</summary>
+        /// <param name="type">The position to read</param>
+        /// <returns>Position data</returns>
+        /// <exception cref="PositionParseException">
+        ///     unable to parse the position to <see cref="PositionP"/> nor <see cref="PositionJ"/>
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IPosition ProgramGetPosition(PositionType type) => ProgramGetPosition(type.ToCommandString());
+
+        /// <summary>[LISTP] Program position read</summary>
+        /// <param name="positionName">Specific position name</param>
+        /// <returns>Position data</returns>
+        /// <exception cref="PositionParseException">
+        ///     unable to parse the position to <see cref="PositionP"/> nor <see cref="PositionJ"/>
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IPosition ProgramGetPosition(string positionName)
+        {
+            var ret = DoCommandInternal($"LISTP{positionName}").Split('=');
+            try { return new PositionP(ret[1]); } catch { }
+            try { return new PositionJ(ret[1]); } catch { }
+            throw new PositionParseException(ret[1], typeof(IPosition));
+        }
+
+        /// <summary>[VTYPRD] Variable type read</summary>
+        /// <param name="variableName">Name of the variable</param>
+        /// <returns><see cref="Type"/> of the variable</returns>
+        /// <exception cref="InvalidCastException"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Type ProgramGetVariableType(string variableName)
+        {
+            var type = DoCommandInternal($"VTYPRD{variableName}");
+            switch (type)
+            {
+                case "M": return typeof(int);
+                case "C": return typeof(char);
+                case "P": return typeof(PositionP);
+                case "J": return typeof(PositionJ);
+            }
+            throw new InvalidCastException($"Unknown VariableType \"{type}\"");
+        }
+
+        /// <summary>[LISTCNT] Count program lines</summary>
+        /// <param name="start">Counted start line number</param>
+        /// <param name="end">Counted end line number</param>
+        /// <returns>Number of lines</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int ProgramCountLines(int start = 0, int end = int.MaxValue) => int.Parse(DoCommandInternal($"LISTCNT{start};{end}"));
 
         /// <summary>[EXEC] Direct execution</summary>
         /// <remarks>The instruction is executed directly. Returns the response when you accepted.</remarks>
@@ -216,7 +274,13 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LoadProgram(string program, int slot = 1) => DoCommandInternal($"PRGLOAD={program}", slot);
 
-        // TODO: PRG<UP/DOWN> - Program select
+        /// <summary>[PRGUP] Program select (up)</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ProgramUp() => DoCommandInternal("PRGUP");
+
+        /// <summary>[PRGDOWN] Program select (down)</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ProgramDown() => DoCommandInternal("PRGDOWN");
 
         /// <summary>[PRGRD] Execution program name read</summary>
         /// <remarks>The program name of the task slot is read.</remarks>
@@ -337,7 +401,9 @@ namespace Melfa.Robot
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void HandAlign() => DoCommandInternal("ALIGN");
 
-        // TODO: MOVESP - MOVE safe position
+        /// <summary>[MOVSP] MOVE safe position ("JSAVE")</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void MoveToSafePosition() => DoCommandInternal("MOVSP");
 
         /// <summary>[JOG] Jog operation</summary>
         /// <remarks>If the command is not received between about 140msec, the jog operation is automatically stopped.</remarks>
@@ -417,6 +483,13 @@ namespace Melfa.Robot
                 CommunityToolkit.Diagnostics.Guard.IsBetweenOrEqualTo(value, 0, 16);
                 DoCommandInternal($"TOOLSET{value}");
             }
+        }
+
+        /// <summary>[SAFE=] Low speed mode</summary>
+        public bool LowSpeedMode
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => DoCommandInternal(value ? "SAFE=1" : "SAFE=0");
         }
         #endregion
 
