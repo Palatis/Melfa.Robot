@@ -1,4 +1,4 @@
-Copyright (C) 2024 Victor Tseng
+Copyright (C) 2024-2026 Victor Tseng
 
 Redistribution and use in source and binary forms, with or without 
 modification, are permitted provided that the following conditions
