@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Melfa.Robot
+namespace Melfa.Robot;
+
+public enum MaintenanceType
 {
-    public enum MaintenanceType
-    {
-        Battery = 1,
-        Grease = 2,
-        Belt = 3,
-    }
+    Battery = 1,
+    Grease = 2,
+    Belt = 3,
 }

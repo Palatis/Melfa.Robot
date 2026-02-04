@@ -1,13 +1,12 @@
-﻿namespace Melfa.Robot
+﻿namespace Melfa.Robot;
+
+public enum OriginType
 {
-    public enum OriginType
-    {
-        UserOrigin = 0,
-        MechanicalStopper = 1,
-        CalibrationJig = 3,
-        Absolute = 4,
-        EyeMark = 5,
-        DataInput = 6,
-        UserAbsolute = 7,
-    }
+    UserOrigin = 0,
+    MechanicalStopper = 1,
+    CalibrationJig = 3,
+    Absolute = 4,
+    EyeMark = 5,
+    DataInput = 6,
+    UserAbsolute = 7,
 }

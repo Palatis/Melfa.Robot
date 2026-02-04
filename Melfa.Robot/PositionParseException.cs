@@ -1,24 +1,23 @@
 ﻿using System;
 
-namespace Melfa.Robot
+namespace Melfa.Robot;
+
+public class PositionParseException : Exception
 {
-    public class PositionParseException : Exception
+    public string RawValue { get; }
+    public Type TargetType { get; }
+
+    public PositionParseException(string value, Type target) :
+        base($"Error parsing \"{value}\" to \"{target.FullName}\"")
     {
-        public string RawValue { get; }
-        public Type TargetType { get; }
+        RawValue = value;
+        TargetType = target;
+    }
 
-        public PositionParseException(string value, Type target) :
-            base($"Error parsing \"{value}\" to \"{target.FullName}\"")
-        {
-            RawValue = value;
-            TargetType = target;
-        }
-
-        public PositionParseException(string value, Type target, Exception inner) :
-            base($"Error parsing \"{value}\" to \"{target.FullName}\"", inner)
-        {
-            RawValue = value;
-            TargetType = target;
-        }
+    public PositionParseException(string value, Type target, Exception inner) :
+        base($"Error parsing \"{value}\" to \"{target.FullName}\"", inner)
+    {
+        RawValue = value;
+        TargetType = target;
     }
 }

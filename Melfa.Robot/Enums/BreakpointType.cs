@@ -1,8 +1,7 @@
-﻿namespace Melfa.Robot
+﻿namespace Melfa.Robot;
+
+public enum BreakpointType
 {
-    public enum BreakpointType
-    {
-        Continuous = 0,
-        OneTime = 1,
-    }
+    Continuous = 0,
+    OneTime = 1,
 }

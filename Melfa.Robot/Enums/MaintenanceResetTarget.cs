@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Melfa.Robot
+namespace Melfa.Robot;
+
+[Flags]
+public enum MaintenanceResetTarget : byte
 {
-    [Flags]
-    public enum MaintenanceResetTarget : byte
-    {
-        Belt = 0x01,
-        Grease = 0x02,
-    }
+    Belt = 0x01,
+    Grease = 0x02,
 }

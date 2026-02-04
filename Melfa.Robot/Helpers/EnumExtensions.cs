@@ -1,66 +1,54 @@
 using System.ComponentModel;
-using System.Drawing.Drawing2D;
 
-namespace Melfa.Robot
+namespace Melfa.Robot.Helpers;
+
+internal static class EnumExtensions
 {
-    internal static class EnumExtensions
-    {
-        public static string ToCommandString(this HourMeterKind kind)
+    public static string ToCommandString(this HourMeterKind kind) =>
+        kind switch
         {
-            switch (kind)
-            {
-                case HourMeterKind.PowerOnTime: return "T";
-                case HourMeterKind.ServoOnTime: return "S";
-                case HourMeterKind.ProgramOperationTime: return "D";
-                case HourMeterKind.BatteryAccumulationTime: return "B";
-                case HourMeterKind.All: return "Z";
-            }
-            throw new InvalidEnumArgumentException(nameof(kind), (int)kind, typeof(HourMeterKind));
-        }
+            HourMeterKind.PowerOnTime => "T",
+            HourMeterKind.ServoOnTime => "S",
+            HourMeterKind.ProgramOperationTime => "D",
+            HourMeterKind.BatteryAccumulationTime => "B",
+            HourMeterKind.All => "Z",
+            _ => throw new InvalidEnumArgumentException(nameof(kind), (int)kind, typeof(HourMeterKind)),
+        };
 
-        public static string ToCommandString(this StepMethod method)
+    public static string ToCommandString(this StepMethod method) =>
+        method switch
         {
-            switch (method)
-            {
-                case StepMethod.Forward: return "1";
-                case StepMethod.Continuous: return "R";
-                case StepMethod.Backward: return "B";
-                case StepMethod.Stop: return "S";
-            }
-            throw new InvalidEnumArgumentException(nameof(method), (int)method, typeof(StepMethod));
-        }
+            StepMethod.Forward => "1",
+            StepMethod.Continuous => "R",
+            StepMethod.Backward => "B",
+            StepMethod.Stop => "S",
+            _ => throw new InvalidEnumArgumentException(nameof(method), (int)method, typeof(StepMethod)),
+        };
 
-        public static string ToCommandString(this LocationType type)
+    public static string ToCommandString(this LocationType type) =>
+        type switch
         {
-            switch (type)
-            {
-                case LocationType.Top: return "TOP";
-                case LocationType.Bottom: return "END";
-                case LocationType.Next: return "+1";
-                case LocationType.Previous: return "-1";
-            }
-            throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(LocationType));
-        }
+            LocationType.Top => "TOP",
+            LocationType.Bottom => "END",
+            LocationType.Next => "+1",
+            LocationType.Previous => "-1",
+            _ => throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(LocationType)),
+        };
 
-        public static string ToCommandString(this TaskMode mode)
+    public static string ToCommandString(this TaskMode mode) =>
+        mode switch
         {
-            switch (mode)
-            {
-                case TaskMode.Repeat: return "REP";
-                case TaskMode.Cycle: return "CYC";
-            }
-            throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(TaskMode));
-        }
+            TaskMode.Repeat => "REP",
+            TaskMode.Cycle => "CYC",
+            TaskMode.Unknown or _ => throw new InvalidEnumArgumentException(nameof(mode), (int)mode, typeof(TaskMode)),
+        };
 
-        public static string ToCommandString(this TaskCondition condition)
+    public static string ToCommandString(this TaskCondition condition) =>
+        condition switch
         {
-            switch (condition)
-            {
-                case TaskCondition.Start: return "START";
-                case TaskCondition.Always: return "ALWAYS";
-                case TaskCondition.Error: return "ERROR";
-            }
-            throw new InvalidEnumArgumentException(nameof(condition), (int)condition, typeof(TaskCondition));
-        }
-    }
+            TaskCondition.Start => "START",
+            TaskCondition.Always => "ALWAYS",
+            TaskCondition.Error => "ERROR",
+            TaskCondition.Unknown or _ => throw new InvalidEnumArgumentException(nameof(condition), (int)condition, typeof(TaskCondition)),
+        };
 }

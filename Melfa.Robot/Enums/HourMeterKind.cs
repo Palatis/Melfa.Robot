@@ -1,11 +1,10 @@
-﻿namespace Melfa.Robot
+﻿namespace Melfa.Robot;
+
+public enum HourMeterKind
 {
-    public enum HourMeterKind
-    {
-        PowerOnTime,
-        ServoOnTime,
-        ProgramOperationTime,
-        BatteryAccumulationTime,
-        All,
-    }
+    PowerOnTime = 'T',
+    ServoOnTime = 'S',
+    ProgramOperationTime = 'D',
+    BatteryAccumulationTime = 'B',
+    All = 'Z',
 }

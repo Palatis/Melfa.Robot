@@ -1,6 +1,5 @@
-﻿namespace Melfa.Robot
+﻿namespace Melfa.Robot;
+
+public interface IPosition
 {
-    public interface IPosition
-    {
-    }
 }
